@@ -676,6 +676,7 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
     {
     case adventurer:
       adventurerAction(currentPlayer, state);
+	  return 0;
 			
     case council_room:
       //+4 Cards
@@ -820,6 +821,7 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
 		
     case smithy:
       smithyAction(currentPlayer, state, handPos);
+	  return 0;
 		
     case village:
       //+1 Card
@@ -969,6 +971,7 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
 		
     case tribute:
       tributeAction(currentPlayer, state, handPos);
+	  return 0;
 		
     case ambassador:
       j = 0;		//used to check if player has enough cards to discard
@@ -1064,6 +1067,7 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
 		
     case embargo: 
       embargoAction(currentPlayer, state, handPos, choice1);
+	  return 0;
 		
     case outpost:
       //set outpost flag
@@ -1091,6 +1095,7 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
 		
     case sea_hag:
       seaHagAttack(currentPlayer, state);
+	  return 0;
 		
     case treasure_map:
       //search hand for another treasure_map
@@ -1133,7 +1138,7 @@ int smithyAction(int curPlayer, struct gameState *state, int handPos)
 {
 	int i;
 	//+3 Cards
-    for (i = 0; i < 3; i++)
+    for (i = 1; i < 3; i++) //added bug: i should = 0
 	{
 	  drawCard(curPlayer, state);
 	}
@@ -1150,7 +1155,7 @@ int adventurerAction(int curPlayer, struct gameState *state)
 	int temphand[MAX_HAND];
 	int i = 0;
 	  
-	while(drawntreasure < 2)
+	while(drawntreasure <= 2) //added bug: drawntreasure should be < 2
 	{
 		//if the deck is empty we need to shuffle discard and add to deck
 		if (state->deckCount[curPlayer] <1)
@@ -1174,7 +1179,7 @@ int adventurerAction(int curPlayer, struct gameState *state)
 		}
     }
     
-	while(i-1>=0)
+	while(i-1 >= 0)
 	{
 		state->discard[curPlayer][state->discardCount[curPlayer]++]=temphand[i-1]; // discard all cards in play that have been drawn
 		i=i-1;
@@ -1189,7 +1194,7 @@ int seaHagAttack(int curPlayer, struct gameState *state)
 	
 	for (i = 0; i < state->numPlayers; i++)
 	{
-		if (i != curPlayer)
+		if (i != curPlayer) 
 		{
 			state->discard[i][state->discardCount[i]] = state->deck[i][state->deckCount[i]--];			    
 			state->deckCount[i]--;
@@ -1206,7 +1211,7 @@ int embargoAction(int curPlayer, struct gameState *state, int handPos, int choic
     state->coins = state->coins + 2;
 			
     //see if selected pile is in play
-    if ( state->supplyCount[choice1] == -1 )
+    if ( state->supplyCount[choice1] != -1 )//added bug: should be equality (==) not does not equal (!=)
 	{
 	  return -1;
 	}
@@ -1284,7 +1289,7 @@ int tributeAction(int curPlayer, struct gameState *state, int handPos)
     for (i = 0; i <= 2; i ++)
 	{
 		//Treasure cards
-		if (tributeRevealedCards[i] == copper || tributeRevealedCards[i] == silver || tributeRevealedCards[i] == gold)
+		if (tributeRevealedCards[i] == copper || (tributeRevealedCards[i] == silver && tributeRevealedCards[i] == gold))//added bug: should be or (||) not and (&&) tributeRevealedCards[i] == gold
 		{
 			state->coins += 2;
 		}
