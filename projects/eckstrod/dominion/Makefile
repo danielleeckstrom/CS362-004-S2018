@@ -50,7 +50,7 @@ cardtest2: cardtest2.c dominion.o rngs.o
 	gcov dominion.c >> unittestresults.out
 	cat dominion.c.gcov >> unittestresults.out
 
-cardtest3:
+cardtest3: cardtest3.c dominion.o rngs.o
 	echo "cardtest3.c:" >> unittestresults.out
 	gcc -o cardtest3 -g cardtest3.c dominion.o rngs.o $(CFLAGS)
 	./cardtest3 >> unittestresults.out
