@@ -1,0 +1,89 @@
+        -:    0:Source:unittest4.c
+        -:    0:Graph:unittest4.gcno
+        -:    0:Data:unittest4.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1:#include <stdio.h>
+        -:    2:#include <assert.h>
+        -:    3:#include <stdlib.h>
+        -:    4:#include "dominion.h"
+        -:    5:#include "dominion_helpers.h"
+        -:    6:#include "rngs.h"
+        -:    7:
+        -:    8://Custom Assert Function
+        2:    9:void assertTrue(int a, int b, char* testName)
+        -:   10:{
+        2:   11:	if(a == b)
+        -:   12:	{
+        2:   13:		printf("%s Test Successful\n", testName);
+        -:   14:	}
+        -:   15:	
+        -:   16:	else
+        -:   17:	{
+    #####:   18:		printf("%s Test Failed\n", testName);
+        -:   19:	}
+        2:   20:}
+        -:   21:
+        1:   22:int main(int argc, char *argv[])
+        -:   23:{
+        1:   24:	int numPlayers = 2;
+        1:   25:	int k[10] = {smithy, adventurer, council_room, feast, gardens, mine, remodel, village, salvager, great_hall};
+        1:   26:	int seed = 10;
+        -:   27:	struct gameState state;
+        -:   28:	int i;
+        -:   29:   
+        -:   30:	//Print which test is being run
+        1:   31:	printf("Unit Test - Shuffle\n");
+        -:   32:	
+        1:   33:	int initSuccess = initializeGame(numPlayers, k, seed, &state);
+        1:   34:	if(initSuccess != 0)
+        -:   35:	{
+    #####:   36:	   printf("Game failed to initialize\n");
+        -:   37:	}
+        -:   38:	
+        -:   39:	//Set 2 Decks Equally 
+        1:   40:	state.deckCount[0] = 10;
+        1:   41:	state.deckCount[1] = 10;
+        -:   42:	
+       11:   43:	for(i = 0; i < 10; i++)
+        -:   44:	{
+       10:   45:		state.deck[0][i] = k[i];
+       10:   46:		state.deck[1][i] = k[i];
+        -:   47:	}
+        -:   48:	
+        1:   49:	shuffle(0, &state);
+        -:   50:	
+        -:   51:	//Test Change in Card Order
+        1:   52:	int different = 0;
+        -:   53:	
+       11:   54:	for(i = 0; i < 10; i++)
+        -:   55:	{
+       10:   56:		if(state.deck[0][i] != state.deck[1][i])
+        -:   57:		{
+        9:   58:			different++;
+        -:   59:		}	
+        -:   60:	}
+        -:   61:	
+        1:   62:	if(different > 0)
+        -:   63:	{
+        1:   64:		different = 1;
+        -:   65:	}
+        -:   66:	
+        1:   67:	assertTrue(1, different, "Card Order Changed -");
+        -:   68:	
+        -:   69:	//Test No Cards in Deck to Shuffle
+        1:   70:	state.deckCount[0] = 0;
+        1:   71:	assertTrue(-1, shuffle(0, &state), "No Cards to Shuffle -");
+        -:   72:	
+        1:   73:    return 0;
+        -:   74:}
+        -:   75:
+        -:   76:
+        -:   77:
+        -:   78:
+        -:   79:
+        -:   80:
+        -:   81:
+        -:   82:
+        -:   83:
+        -:   84:

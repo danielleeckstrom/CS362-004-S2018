@@ -1,0 +1,69 @@
+        -:    0:Source:cardtest3.c
+        -:    0:Graph:cardtest3.gcno
+        -:    0:Data:cardtest3.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1:#include <stdio.h>
+        -:    2:#include <assert.h>
+        -:    3:#include <stdlib.h>
+        -:    4:#include "dominion.h"
+        -:    5:#include "dominion_helpers.h"
+        -:    6:#include "rngs.h"
+        -:    7:
+        -:    8://Custom Assert Function
+        3:    9:void assertTrue(int a, int b, char* testName)
+        -:   10:{
+        3:   11:	if(a == b)
+        -:   12:	{
+        3:   13:		printf("%s Test Successful\n", testName);
+        -:   14:	}
+        -:   15:	
+        -:   16:	else
+        -:   17:	{
+    #####:   18:		printf("%s Test Failed\n", testName);
+        -:   19:	}
+        3:   20:}
+        -:   21:
+        1:   22:int main(int argc, char *argv[])
+        -:   23:{
+        1:   24:	int numPlayers = 2;
+        1:   25:	int k[10] = {smithy, adventurer, council_room, feast, gardens, mine, remodel, village, salvager, great_hall};
+        1:   26:	int seed = 10;
+        -:   27:	struct gameState state;
+        1:   28:	int choice1 = 0;
+        1:   29:	int choice2 = 0;
+        1:   30:	int choice3 = 0;
+        1:   31:	int handpos = 0;
+        1:   32:	int bonus = 0;
+        -:   33:   
+        -:   34:	//Print which test is being run
+        1:   35:	printf("Card Test - Village\n");
+        -:   36:	
+        1:   37:	int initSuccess = initializeGame(numPlayers, k, seed, &state);
+        1:   38:	if(initSuccess != 0)
+        -:   39:	{
+    #####:   40:	   printf("Game failed to initialize\n");
+        -:   41:	}
+        -:   42:    
+        -:   43:	//State of Game Before Village is Played
+        1:   44:	int inHand = numHandCards(&state);
+        1:   45:	int deckSize = state.deckCount[whoseTurn(&state)];
+        1:   46:	int numActions = state.numActions;
+        -:   47:	
+        -:   48:	//Play Village
+        1:   49:	cardEffect(village, choice1, choice2, choice3, &state, handpos, &bonus);
+        -:   50:   
+        -:   51:	//State of Game After Village is Played
+        -:   52:	//Test Correct Hand Size - Should Stay the Same (added 1, discarded Village)
+        1:   53:	assertTrue(inHand, numHandCards(&state), "Correct Hand Size -");
+        -:   54:   
+        -:   55:	//Test Correct Deck Size - Should Decrease by 1
+        1:   56:	assertTrue(deckSize - 1, state.deckCount[whoseTurn(&state)], "Correct Deck Size -");
+        -:   57:	
+        -:   58:	//Test Correct Number of Actions - Should Increase by 2 (only playCard decreases actions to remove the one used for the Village)
+        1:   59:	assertTrue(numActions + 2, state.numActions, "Correct Number of Actions Remaining -");
+        -:   60:   
+        1:   61:   return 0;   
+        -:   62:}
+        -:   63:
+        -:   64:
