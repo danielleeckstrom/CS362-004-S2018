@@ -47,11 +47,11 @@ int main(int argc, char *argv[])
 	
 	//Test Deck Gains Card
 	gainCard(copper, &state, 1, whoseTurn(&state));
-	assertTrue(1, state.deckCount[whoseTurn(&state)], "Discard Pile Gains Card -");		
+	assertTrue(1, state.deckCount[whoseTurn(&state)], "Deck Gains Card -");		
 	
 	//Test Hand Gains Card
 	gainCard(copper, &state, 2, whoseTurn(&state));
-	assertTrue(1, state.handCount[whoseTurn(&state)], "Discard Pile Gains Card -");	
+	assertTrue(1, state.handCount[whoseTurn(&state)], "Hand Pile Gains Card -");	
 	
     return 0;
 }
