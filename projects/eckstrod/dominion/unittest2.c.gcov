@@ -52,11 +52,11 @@
         -:   47:	
         -:   48:	//Test Deck Gains Card
         1:   49:	gainCard(copper, &state, 1, whoseTurn(&state));
-        1:   50:	assertTrue(1, state.deckCount[whoseTurn(&state)], "Discard Pile Gains Card -");		
+        1:   50:	assertTrue(1, state.deckCount[whoseTurn(&state)], "Deck Gains Card -");		
         -:   51:	
         -:   52:	//Test Hand Gains Card
         1:   53:	gainCard(copper, &state, 2, whoseTurn(&state));
-        1:   54:	assertTrue(1, state.handCount[whoseTurn(&state)], "Discard Pile Gains Card -");	
+        1:   54:	assertTrue(1, state.handCount[whoseTurn(&state)], "Hand Pile Gains Card -");	
         -:   55:	
         1:   56:    return 0;
         -:   57:}

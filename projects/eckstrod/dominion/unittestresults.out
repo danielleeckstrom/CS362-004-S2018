@@ -11,8 +11,8 @@ Creating 'unittest1.c.gcov'
 unittest2.c:
 Unit Test - Gain Card
 Discard Pile Gains Card - Test Successful
-Discard Pile Gains Card - Test Successful
-Discard Pile Gains Card - Test Successful
+Deck Gains Card - Test Successful
+Hand Pile Gains Card - Test Successful
 File 'unittest2.c'
 Lines executed:91.30% of 23
 Creating 'unittest2.c.gcov'
