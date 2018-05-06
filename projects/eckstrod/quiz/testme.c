@@ -46,7 +46,7 @@ void testme()
     tcCount++;
     c = inputChar();
     s = inputString(); 
-    //printf("Iteration %d: c = %c, s = %s, state = %d\n", tcCount, c, s, state);
+    printf("Iteration %d: c = %c, s = %s, state = %d\n", tcCount, c, s, state);
 
     if (c == '[' && state == 0) state = 1;
     if (c == '(' && state == 1) state = 2;
