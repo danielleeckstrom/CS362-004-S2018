@@ -6,27 +6,47 @@
 char inputChar()
 {
     // TODO: rewrite this function
-    return ' ';
+	int randomASCII = rand() % (95) + 32; //random number between 32 ` ` and 126 `~`
+	char input = randomASCII;
+	
+    return input;
 }
 
-char *inputString()
+char* inputString()
 {
     // TODO: rewrite this function
-    return "";
+	int i;
+	char reset[6];
+	char* input = reset;
+	memset(reset, '\0', sizeof(reset));
+	
+	for(i=0; i < 5; i++)
+	{
+		//reset[i] = rand() % (16) + 101; //random number between 101 `e` and 116 `t`;//random number between 97 `a` and 122 `z`;
+		reset[i] = rand() % (26) + 97; //random number between 97 `a` and 122 `z`;
+		//reset[i] = inputChar();
+		//reset[i] = rand() % (58) + 65; //random number between 65 `A` and 122 `z`;
+	}
+	
+    return input;
 }
 
 void testme()
 {
-  int tcCount = 0;
-  char *s;
-  char c;
-  int state = 0;
-  while (1)
+	clock_t startTime = clock(); 
+	clock_t currentTime;
+	double runtime = 0;
+	int tcCount = 0;
+	char *s;
+	char c;
+	int state = 0;
+  
+  while (runtime < 285) //285 seconds = 4.75 minutes
   {
     tcCount++;
     c = inputChar();
-    s = inputString();
-    printf("Iteration %d: c = %c, s = %s, state = %d\n", tcCount, c, s, state);
+    s = inputString(); 
+    //printf("Iteration %d: c = %c, s = %s, state = %d\n", tcCount, c, s, state);
 
     if (c == '[' && state == 0) state = 1;
     if (c == '(' && state == 1) state = 2;
@@ -45,7 +65,10 @@ void testme()
       printf("error ");
       exit(200);
     }
+	currentTime = clock();
+	runtime = ((double)(currentTime - startTime) / CLOCKS_PER_SEC);
   }
+  	printf("Runtime: %f\n", runtime);
 }
 
 
