@@ -83,6 +83,32 @@ allunittests: unittest1 unittest2 unittest3 unittest4 cardtest1 cardtest2 cardte
 	gcov dominion.c >> unittestresults.out 2>&1
 	cat dominion.c.gcov >> unittestresults.out
 
+randomtestadventurer: randomtestadventurer.c dominion.o rngs.o
+	gcc -o randomtestadventurer -g randomtestadventurer.c dominion.o rngs.o $(CFLAGS)
+
+randomtestcard1: randomtestcard1.c dominion.o rngs.o
+	gcc -o randomtestcard1 -g randomtestcard1.c dominion.o rngs.o $(CFLAGS)
+
+randomtestcard2: randomtestcard2.c dominion.o rngs.o
+	gcc -o randomtestcard2 -g randomtestcard2.c dominion.o rngs.o $(CFLAGS)
+	
+allrandomtests: randomtestadventurer randomtestcard1 randomtestcard2 dominion.o rngs.o
+	echo "randomtestadventurer.c:" >> randomtestadventurer.out	
+	./randomtestadventurer >> randomtestadventurer.out 2>&1
+	gcov randomtestadventurer.c >> randomtestadventurer.out
+
+	echo "randomtestcard1.c:" >> randomtestcard1.out	
+	./randomtestcard1 >> randomtestcard1.out 2>&1
+	gcov randomtestcard1.c >> randomtestcard1.out
+	
+	echo "randomtestcard2.c:" >> randomtestcard2.out
+	./randomtestcard2 >> randomtestcard2.out 2>&1
+	gcov randomtestcard2.c >> randomtestcard2.out
+
+	echo "dominion.c:" >> randomtestresults.out	
+	gcov dominion.c >> randomtestresults.out 2>&1
+	cat dominion.c.gcov >> randomtestresults.out
+	
 interface.o: interface.h interface.c
 	gcc -c interface.c -g  $(CFLAGS)
 
