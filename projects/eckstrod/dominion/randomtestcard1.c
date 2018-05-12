@@ -6,7 +6,7 @@
 #include "dominion_helpers.h"
 #include "rngs.h"
 
-#define TEST_COUNT 1000
+#define TEST_COUNT 5000
 
 //Custom Assert Function
 void assertTrue(int a, int b, char* testName)
@@ -156,6 +156,9 @@ int main(int argc, char *argv[])
 			
 			int moneyToSpend = rand() % 7;
 			state.coins = moneyToSpend;			
+			int inHand = rand() % MAX_HAND + 1; //if 0 player couldn't play salvager card so between 1 and max
+			state.handCount[player] = inHand;
+			
 			int handpos = rand() % numHandCards(&state); //random hand position
 			
 			int valueChoice = getCost(handCard(choice1, &state));
