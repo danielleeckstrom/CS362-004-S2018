@@ -108,8 +108,6 @@ int main(int argc, char *argv[])
 		if(initSuccess != 0)
 		{
 		   printf("Game failed to initialize\n");
-		   printf("Num Players: %d\n", numPlayers);
-		   printf("Seed: %d\n", seed);
 		}
 		
 		for(i = 0; i < numPlayers; i++)
@@ -121,10 +119,38 @@ int main(int argc, char *argv[])
 			int moneyToSpend = state.coins;
 			int handpos = rand() % numHandCards(&state); //random hand position
 			int bonus = rand();
-			int choice1 = rand() % 2; //either true or false
-			int choice2 = kingdom[(rand() % 10)]; //get a random kingdom card
-			int choice3 = kingdom[(rand() % 10)]; //get a random kingdom card
-
+			int choice1, choice2, choice3;
+			
+			if(rand() % 2)
+			{
+				choice1 = 0;
+			}
+				
+			else
+			{
+				choice1 = kingdom[(rand() % 10)]; //get a random kingdom card
+			}
+			
+			if(rand() % 2)
+			{
+				choice2 = 0;
+			}
+			
+			else
+			{
+				choice2 = kingdom[(rand() % 10)]; //get a random kingdom card
+			}
+			
+			if(rand() % 2)
+			{
+				choice3 = 0;
+			}
+			
+			else
+			{
+				choice3 = kingdom[(rand() % 10)]; //get a random kingdom card
+			}
+			
 			int numTreasureCards;
 			for(i = 0; i < numHandCards(&state); i++)
 			{
