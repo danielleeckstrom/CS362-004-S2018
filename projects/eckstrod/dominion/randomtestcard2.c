@@ -6,7 +6,7 @@
 #include "dominion_helpers.h"
 #include "rngs.h"
 
-#define TEST_COUNT 1000
+#define TEST_COUNT 5000
 
 //Custom Assert Function
 void assertTrue(int a, int b, char* testName)
@@ -20,7 +20,7 @@ void assertTrue(int a, int b, char* testName)
 int main(int argc, char *argv[])
 {
 	//Print which test is being run
-	printf("Random Test - x");
+	printf("Random Test - Smithy");
 
 	//Declare some variables
 	srand(time(0));
@@ -36,7 +36,7 @@ int main(int argc, char *argv[])
 		for(i = 0; i < 10; i++)
 		{
 			if (i == 0)
-				kingdom[i] = salvager;
+				kingdom[i] = smithy;
 				
 			else if(i == 1 && r == 0)
 				kingdom[i] = curse;
@@ -57,7 +57,7 @@ int main(int argc, char *argv[])
 				kingdom[i] = remodel;
 				
 			else if(i == 4 && r == 0)
-				kingdom[i] = smithy;
+				kingdom[i] = salvager;
 				
 			else if(i == 4 && r == 1)
 				kingdom[i] = village;
@@ -113,15 +113,58 @@ int main(int argc, char *argv[])
 		for(i = 0; i < numPlayers; i++)
 		{
 			//State of Game Before Card is Played
+			int player = whoseTurn(&state);
+			int bonus = rand();
+			int choice1, choice2, choice3;
 			
+			if(rand() % 2)
+			{
+				choice1 = 0;
+			}
+				
+			else
+			{
+				choice1 = kingdom[(rand() % 10)]; //get a random kingdom card
+			}
+			
+			if(rand() % 2)
+			{
+				choice2 = 0;
+			}
+			
+			else
+			{
+				choice2 = kingdom[(rand() % 10)]; //get a random kingdom card
+			}
+			
+			if(rand() % 2)
+			{
+				choice3 = 0;
+			}
+			
+			else
+			{
+				choice3 = kingdom[(rand() % 10)]; //get a random kingdom card
+			}
 	
-			//Play x
-			cardEffect(salvager, choice1, choice2, choice3, &state, handpos, &bonus);
-		   
-			//State of Game After x is Played
+			state.deckCount[player] = rand() % (MAX_DECK + 1);
+
+			int inHand = rand() % MAX_HAND + 1; //if 0 player couldn't play adventurer card so between 1 and max
+			state.handCount[player] = inHand;
+			int deckNotHand1 = state.deckCount[player] + state.discardCount[player] + state.playedCardCount;
+			int handpos = rand() % numHandCards(&state); //random hand position	
 			
+			//Play Smithy
+			cardEffect(smithy, choice1, choice2, choice3, &state, handpos, &bonus);
 		   
-			//Test 
+			//State of Game After Smithy is Played
+			int deckNotHand2 = state.deckCount[player] + state.discardCount[player] + state.playedCardCount;
+		   
+			//Test Correct Hand Size - Should Increase by 2 (added 3, discarded Smithy)
+			assertTrue(inHand + 2, numHandCards(&state), "Correct Hand Size -");
+   
+			//Test Correct Deck Size - Should Decrease by 2 (moved 3 to hand, discarded Smithy)
+			assertTrue(deckNotHand1 - 2, deckNotHand2, "Correct Deck Size -");
 			
 			//Advance to a new players turn
 			endTurn(&state);
