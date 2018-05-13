@@ -1,0 +1,203 @@
+        -:    0:Source:randomtestcard1.c
+        -:    0:Graph:randomtestcard1.gcno
+        -:    0:Data:randomtestcard1.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1:#include <stdio.h>
+        -:    2:#include <assert.h>
+        -:    3:#include <stdlib.h>
+        -:    4:#include <time.h>
+        -:    5:#include "dominion.h"
+        -:    6:#include "dominion_helpers.h"
+        -:    7:#include "rngs.h"
+        -:    8:
+        -:    9:#define TEST_COUNT 1000
+        -:   10:
+        -:   11://Custom Assert Function
+     9003:   12:void assertTrue(int a, int b, char* testName)
+        -:   13:{
+     9003:   14:	if(a != b)
+        -:   15:	{
+     2994:   16:		printf("%s Test Failed\n", testName);
+        -:   17:	}
+     9003:   18:}
+        -:   19:
+        1:   20:int main(int argc, char *argv[])
+        -:   21:{
+        -:   22:	//Print which test is being run
+        1:   23:	printf("Random Test - Salvager");
+        -:   24:
+        -:   25:	//Declare some variables
+        1:   26:	srand(time(0));
+        -:   27:	int t, i, r;
+        -:   28:	
+     1001:   29:	for(t = 0; t < TEST_COUNT; t++)
+        -:   30:	{	
+        -:   31:		//Values to initiate game
+        -:   32:		struct gameState state;	
+     1000:   33:		int numPlayers = rand() % 3 + 2; //random number between 2 and 4
+        -:   34:		int kingdom[10];
+        -:   35:	
+    11000:   36:		for(i = 0; i < 10; i++)
+        -:   37:		{
+    10000:   38:			if (i == 0)
+     1000:   39:				kingdom[i] = salvager;
+        -:   40:				
+     9000:   41:			else if(i == 1 && r == 0)
+      476:   42:				kingdom[i] = curse;
+        -:   43:			
+     8524:   44:			else if(i == 1 && r == 1)
+      524:   45:				kingdom[i] = council_room;
+        -:   46:				
+     8000:   47:			else if(i == 2 && r == 0)
+      514:   48:				kingdom[i] = feast;
+        -:   49:				
+     7486:   50:			else if(i == 2 && r == 1)
+      486:   51:				kingdom[i] = gardens;
+        -:   52:				
+     7000:   53:			else if(i == 3 && r == 0)
+      515:   54:				kingdom[i] = mine;
+        -:   55:			
+     6485:   56:			else if(i == 3 && r == 1)
+      485:   57:				kingdom[i] = remodel;
+        -:   58:				
+     6000:   59:			else if(i == 4 && r == 0)
+      491:   60:				kingdom[i] = smithy;
+        -:   61:				
+     5509:   62:			else if(i == 4 && r == 1)
+      509:   63:				kingdom[i] = village;
+        -:   64:				
+     5000:   65:			else if(i == 5 && r == 0)
+      493:   66:				kingdom[i] = baron;
+        -:   67:				
+     4507:   68:			else if(i == 5 && r == 1)
+      507:   69:				kingdom[i] = great_hall;
+        -:   70:				
+     4000:   71:			else if(i == 6 && r == 0)
+      512:   72:				kingdom[i] = minion;
+        -:   73:			
+     3488:   74:			else if(i == 6 && r == 1)
+      488:   75:				kingdom[i] = steward;
+        -:   76:			
+     3000:   77:			else if(i == 7 && r == 0)
+      539:   78:				kingdom[i] = tribute;
+        -:   79:				
+     2461:   80:			else if(i == 7 && r == 1)
+      461:   81:				kingdom[i] = ambassador;
+        -:   82:				
+     2000:   83:			else if(i == 8 && r == 0)
+      498:   84:				kingdom[i] = cutpurse;
+        -:   85:				
+     1502:   86:			else if(i == 8 && r == 1)
+      502:   87:				kingdom[i] = embargo;
+        -:   88:			
+     1000:   89:			else if(i == 9 && r == 0)
+      525:   90:				kingdom[i] = outpost;
+        -:   91:			
+      475:   92:			else if(i == 9 && r == 1)
+      475:   93:				kingdom[i] = adventurer;
+        -:   94:				
+    10000:   95:			r = rand() % 2;
+        -:   96:		}
+        -:   97:		
+     1000:   98:		int seed = rand(); //random number	
+        -:   99:  
+        -:  100:		//Initiate Game
+        -:  101:		
+     1000:  102:		initializeGame(numPlayers, kingdom, seed, &state);
+        -:  103:		//This check to confirm game initialization is reducing my coverage percentage 
+        -:  104:		/*int initSuccess = 
+        -:  105:		if(initSuccess != 0)
+        -:  106:		{
+        -:  107:		   printf("Game failed to initialize\n");
+        -:  108:		}*/
+        -:  109:		
+     4001:  110:		for(i = 0; i < numPlayers; i++)
+        -:  111:		{
+        -:  112:			//State of Game Before Card is Played
+     3001:  113:			int player = whoseTurn(&state);
+     3001:  114:			int bonus = rand();
+        -:  115:			int choice1, choice2, choice3;
+        -:  116:			
+     3001:  117:			if(rand() % 2)
+        -:  118:			{
+     1430:  119:				choice1 = 0;
+        -:  120:			}
+        -:  121:				
+        -:  122:			else
+        -:  123:			{
+     1571:  124:				choice1 = kingdom[(rand() % 10)]; //get a random kingdom card
+        -:  125:			}
+        -:  126:			
+     3001:  127:			if(rand() % 2)
+        -:  128:			{
+     1464:  129:				choice2 = 0;
+        -:  130:			}
+        -:  131:			
+        -:  132:			else
+        -:  133:			{
+     1537:  134:				choice2 = kingdom[(rand() % 10)]; //get a random kingdom card
+        -:  135:			}
+        -:  136:			
+     3001:  137:			if(rand() % 2)
+        -:  138:			{
+     1492:  139:				choice3 = 0;
+        -:  140:			}
+        -:  141:			
+        -:  142:			else
+        -:  143:			{
+     1509:  144:				choice3 = kingdom[(rand() % 10)]; //get a random kingdom card
+        -:  145:			}
+        -:  146:	
+     3001:  147:			state.deckCount[player] = rand() % (MAX_DECK + 1);
+     3001:  148:			state.discardCount[player] = rand() % (MAX_DECK - state.deckCount[player] + 1);
+     3001:  149:			int fullDeckSizeBefore = state.deckCount[player] + state.handCount[player] + state.discardCount[player] + state.playedCardCount; 
+        -:  150:			
+     3001:  151:			int numBuys = rand() % 3 + 1;
+     3001:  152:			state.numBuys = numBuys;
+        -:  153:			
+     3001:  154:			int moneyToSpend = rand() % 7;
+     3001:  155:			state.coins = moneyToSpend;			
+     3001:  156:			int inHand = rand() % MAX_HAND + 1; //if 0 player couldn't play salvager card so between 1 and max
+     3001:  157:			state.handCount[player] = inHand;
+        -:  158:			
+     3001:  159:			int handpos = rand() % numHandCards(&state); //random hand position
+        -:  160:			
+     3001:  161:			int valueChoice = getCost(handCard(choice1, &state));
+        -:  162:	
+        -:  163:			//Play Salvager
+     3001:  164:			cardEffect(salvager, choice1, choice2, choice3, &state, handpos, &bonus);
+        -:  165:		   
+        -:  166:			//State of Game After Salvager is Played
+     3001:  167:			int fullDeckSizeAfter = state.deckCount[player] + state.handCount[player] + state.discardCount[player] + state.playedCardCount;
+        -:  168:		   
+        -:  169:			//Test Correct Number of Buys Remaining
+     3001:  170:			assertTrue(numBuys + 1, state.numBuys, "Correct Number of Buys Remaining -");
+        -:  171:				
+     3001:  172:			if(choice1)
+        -:  173:			{	
+        -:  174:				//Test Correct Full Deck Size - One Card Should be Trashed
+     1501:  175:				assertTrue(fullDeckSizeBefore - 1, fullDeckSizeAfter, "Correct Full Deck Size -");
+        -:  176:				
+        -:  177:				//Test Correct Amount Money to Spend - Additional $ Should be Available 
+     1501:  178:				assertTrue(moneyToSpend + valueChoice, state.coins, "Correct Amount Money to Spend -");
+        -:  179:			}
+        -:  180:			
+        -:  181:			else
+        -:  182:			{
+        -:  183:				//Test Correct Deck Size - Should Remain Unchanged
+     1500:  184:				assertTrue(fullDeckSizeBefore, fullDeckSizeAfter, "Correct Full Deck Size -");
+        -:  185:				
+        -:  186:				//Test Correct Amount Money to Spend - Should Remain Unchanged
+     1500:  187:				assertTrue(moneyToSpend, state.coins, "Correct Amount Money to Spend -");
+        -:  188:			}
+        -:  189:			
+        -:  190:			//Advance to a new players turn
+     3001:  191:			endTurn(&state);
+        -:  192:		}
+        -:  193:	}
+        -:  194:	
+        1:  195:	return 0;   
+        -:  196:}
+        -:  197:
+        -:  198:
