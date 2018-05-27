@@ -1243,7 +1243,7 @@ int playAdventurer(struct gameState *state, int currentPlayer, int *temphand){
 	int cardDrawn;
 	int z = 0;
 	int drawntreasure = 0;
-	while(drawntreasure<=2){
+	while(drawntreasure<2){//removed "="
 	if (state->deckCount[currentPlayer] <1){//if the deck is empty we need to shuffle discard and add to deck
 		shuffle(currentPlayer, state);
 	}
