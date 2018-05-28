@@ -60,7 +60,7 @@ int main(int argc, char *argv[])
 	assertTrue(1, (deckSize - 2 >= newDeckSize), "Correct Deck Size -"); 
 	
 	//Test Correct Amount Money to Spend - Additional $ Should be Available 
-	assertTrue(1, (moneyToSpend + 2 <= state.coins), "Correct Amount Money to Spend -");
+	assertTrue(1, (moneyToSpend + 2 <= state.coins && moneyToSpend + 6 >= state.coins), "Correct Amount Money to Spend -");
    
    return 0;   
 }
