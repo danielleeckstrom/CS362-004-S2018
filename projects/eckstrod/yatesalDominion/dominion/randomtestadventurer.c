@@ -112,10 +112,11 @@ int main(int argc, char *argv[])
 			int player = whoseTurn(&state);
 			int inHand = rand() % MAX_HAND + 1; //if 0 player couldn't play adventurer card so between 1 and max
 			state.handCount[player] = inHand;
+			int bonus = rand() % 7;
+			updateCoins(player, &state, bonus);
 			int moneyToSpend = state.coins;
 			int handpos = rand() % numHandCards(&state); //random hand position
 			int deckNotHand1 = state.deckCount[player] + state.discardCount[player] + state.playedCardCount;
-			int bonus = rand() % 7;
 			int choice1, choice2, choice3;
 			
 			if(rand() % 2)
@@ -148,10 +149,10 @@ int main(int argc, char *argv[])
 				choice3 = kingdom[(rand() % 10)]; //get a random kingdom card
 			}
 			
-			int numTreasureCards;
+			int numTreasureCards = 0;
 			for(i = 0; i < numHandCards(&state); i++)
 			{
-				if((state.hand[player][i] == copper) || (state.hand[player][i] == copper) || (state.hand[player][i] == copper))
+				if((state.hand[player][i] == copper) || (state.hand[player][i] == silver) || (state.hand[player][i] == gold))
 				{
 					numTreasureCards++;
 				}
@@ -163,24 +164,24 @@ int main(int argc, char *argv[])
 			//State of Game After Card is Played
 			updateCoins(player, &state, bonus);
 			int deckNotHand2 = state.deckCount[player] + state.discardCount[player] + state.playedCardCount;
-			int numTreasureCards2;
+			int numTreasureCards2 = 0;
 			for(i = 0; i < numHandCards(&state); i++)
 			{
-				if((state.hand[player][i] == copper) || (state.hand[player][i] == copper) || (state.hand[player][i] == copper))
+				if((state.hand[player][i] == copper) || (state.hand[player][i] == silver) || (state.hand[player][i] == gold))
 				{
 					numTreasureCards2++;
 				}
 			}
 			
 			//Test Correct Hand Size - Should Have 2 Additional $ Cards
-			assertTrue(inHand + 1, numHandCards(&state), "Correct Hand Size -");
+			assertTrue(inHand + 2, numHandCards(&state), "Correct Hand Size -");
 			assertTrue(numTreasureCards + 2, numTreasureCards2, "Correct # of Treasure Cards to Spend -");
 			
-			//Test Correct Deck Size - Should Decrease by 1 (moved at least 2 into hand, discarded/played Adventurer and any non-conin cards that were drawn)
-			assertTrue(deckNotHand1 - 1, deckNotHand2, "Correct Deck Size -");
+			//Test Correct Deck Size - Should Decrease by 2 (moved at least 2 into hand, discarded any non-coin cards that were drawn, Adventurer card still in hand)
+			assertTrue(deckNotHand1 - 2, deckNotHand2, "Correct Deck Size -");
 			
 			//Test Correct Amount Money to Spend - Additional $ Should be Available 
-			assertTrue(1, (moneyToSpend + 2 <= state.coins), "Correct Amount Money to Spend -");
+			assertTrue(1, (moneyToSpend + 2 <= state.coins && moneyToSpend + 6 >= state.coins), "Correct Amount Money to Spend -");
 			
 			//Advance to a new players turn
 			endTurn(&state);

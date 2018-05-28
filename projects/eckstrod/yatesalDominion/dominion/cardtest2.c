@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
 	int newDeckSize = state.deckCount[whoseTurn(&state)];
 	
 	//Test Correct Hand Size - Should Have 2 Additional $ Cards
-	assertTrue(inHand + 1, numHandCards(&state), "Correct Hand Size -");
+	assertTrue(inHand + 2, numHandCards(&state), "Correct Hand Size -");
    
 	//May Not be a Valid Test, May Have to Shuffle Discard In, Increasing the Size
 	//Test Correct Deck Size

@@ -20,7 +20,7 @@ void assertTrue(int a, int b, char* testName)
 int main(int argc, char *argv[])
 {
 	//Print which test is being run
-	printf("Random Test - Salvager");
+	printf("Random Test - Salvager\n");
 
 	//Declare some variables
 	srand(time(0));
