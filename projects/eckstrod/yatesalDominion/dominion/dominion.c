@@ -642,6 +642,12 @@ int getCost(int cardNumber)
 
     return -1;
 }
+//hoisted play<Card> declarations to remove compiler warning  
+int playAdventurer(struct gameState *state, int currentPlayer, int *temphand);
+int playGreatHall(struct gameState *state, int currentPlayer, int handPos);
+int playCouncilRoom(struct gameState *state, int currentPlayer, int handPos);
+int playSmithy(struct gameState *state, int currentPlayer, int handPos);
+int playVillage(struct gameState *state, int currentPlayer, int handPos);
 
 int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState *state, int handPos, int *bonus)
 {
@@ -655,8 +661,8 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
 
     int tributeRevealedCards[2] = {-1, -1};
     int temphand[MAX_HAND];// moved above the if statement
-	int drawntreasure=0;
-	int cardDrawn;
+	//int drawntreasure=0;
+	//int cardDrawn;
     if (nextPlayer > (state->numPlayers - 1)){
 	nextPlayer = 0;
     }
@@ -1239,32 +1245,42 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
 }
 
 /*Assignment 2: Refactored Functions*/
-int playAdventurer(struct gameState *state, int currentPlayer, int *temphand){
+int playAdventurer(struct gameState *state, int currentPlayer, int *temphand)
+{
 	int cardDrawn;
 	int z = 0;
 	int drawntreasure = 0;
-	while(drawntreasure<2){//removed "="
-	if (state->deckCount[currentPlayer] <1){//if the deck is empty we need to shuffle discard and add to deck
-		shuffle(currentPlayer, state);
-	}
-	drawCard(currentPlayer, state);
-	cardDrawn = state->hand[currentPlayer][state->handCount[currentPlayer]-1];//top card of hand is most recently drawn card.
-	if (cardDrawn == copper || cardDrawn == silver || cardDrawn == gold)
-	  drawntreasure++;
-	else{
-	  temphand[z]=cardDrawn;
-	  state->handCount[currentPlayer]--; //this should just remove the top card (the most recently drawn one).
-	  ++z;
-	}
-      }
-      while(z-1>=0){
-	state->discard[currentPlayer][state->discardCount[currentPlayer]]=temphand[z-1]; // discard all cards in play that have been drawn
-	z=z-1;
-      }
+	
+	while(drawntreasure < 2)//removed "="
+	{
+		//removed empty deck check, already covered by drawCard
+		drawCard(currentPlayer, state);
+		cardDrawn = state->hand[currentPlayer][state->handCount[currentPlayer]-1];//top card of hand is most recently drawn card.
+		if (cardDrawn == copper || cardDrawn == silver || cardDrawn == gold)
+		{
+		  drawntreasure++;
+		}
+		
+		else
+		{
+		  temphand[z] = cardDrawn;
+		  state->handCount[currentPlayer]--; //this should just remove the top card (the most recently drawn one).
+		  z++;
+		}
+    }
+      
+	while(z-1 >= 0)
+	{
+		state->discard[currentPlayer][state->discardCount[currentPlayer]++] = temphand[z-1]; // discard all cards in play that have been drawn //discardCount ++
+		z--;
+    }
+	
 	return 0;
 }
 
-int playCouncilRoom(struct gameState *state, int currentPlayer, int handPos, int i){
+int playCouncilRoom(struct gameState *state, int currentPlayer, int handPos)
+{
+	int i;
 	//+4 Cards
     for (i = 0; i < 4; i++)
 	{
