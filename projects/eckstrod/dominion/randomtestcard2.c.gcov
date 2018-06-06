@@ -1,0 +1,178 @@
+        -:    0:Source:randomtestcard2.c
+        -:    0:Graph:randomtestcard2.gcno
+        -:    0:Data:randomtestcard2.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1:#include <stdio.h>
+        -:    2:#include <assert.h>
+        -:    3:#include <stdlib.h>
+        -:    4:#include <time.h>
+        -:    5:#include "dominion.h"
+        -:    6:#include "dominion_helpers.h"
+        -:    7:#include "rngs.h"
+        -:    8:
+        -:    9:#define TEST_COUNT 1000
+        -:   10:
+        -:   11://Custom Assert Function
+     5976:   12:void assertTrue(int a, int b, char* testName)
+        -:   13:{
+     5976:   14:	if(a != b)
+        -:   15:	{
+     5976:   16:		printf("%s Test Failed\n", testName);
+        -:   17:	}
+     5976:   18:}
+        -:   19:
+        1:   20:int main(int argc, char *argv[])
+        -:   21:{
+        -:   22:	//Print which test is being run
+        1:   23:	printf("Random Test - Smithy");
+        -:   24:
+        -:   25:	//Declare some variables
+        1:   26:	srand(time(0));
+        -:   27:	int t, i, r;
+        -:   28:	
+     1001:   29:	for(t = 0; t < TEST_COUNT; t++)
+        -:   30:	{	
+        -:   31:		//Values to initiate game
+        -:   32:		struct gameState state;	
+     1000:   33:		int numPlayers = rand() % 3 + 2; //random number between 2 and 4
+        -:   34:		int kingdom[10];
+        -:   35:	
+    11000:   36:		for(i = 0; i < 10; i++)
+        -:   37:		{
+    10000:   38:			if (i == 0)
+     1000:   39:				kingdom[i] = smithy;
+        -:   40:				
+     9000:   41:			else if(i == 1 && r == 0)
+      469:   42:				kingdom[i] = curse;
+        -:   43:			
+     8531:   44:			else if(i == 1 && r == 1)
+      531:   45:				kingdom[i] = council_room;
+        -:   46:				
+     8000:   47:			else if(i == 2 && r == 0)
+      521:   48:				kingdom[i] = feast;
+        -:   49:				
+     7479:   50:			else if(i == 2 && r == 1)
+      479:   51:				kingdom[i] = gardens;
+        -:   52:				
+     7000:   53:			else if(i == 3 && r == 0)
+      489:   54:				kingdom[i] = mine;
+        -:   55:			
+     6511:   56:			else if(i == 3 && r == 1)
+      511:   57:				kingdom[i] = remodel;
+        -:   58:				
+     6000:   59:			else if(i == 4 && r == 0)
+      537:   60:				kingdom[i] = salvager;
+        -:   61:				
+     5463:   62:			else if(i == 4 && r == 1)
+      463:   63:				kingdom[i] = village;
+        -:   64:				
+     5000:   65:			else if(i == 5 && r == 0)
+      487:   66:				kingdom[i] = baron;
+        -:   67:				
+     4513:   68:			else if(i == 5 && r == 1)
+      513:   69:				kingdom[i] = great_hall;
+        -:   70:				
+     4000:   71:			else if(i == 6 && r == 0)
+      528:   72:				kingdom[i] = minion;
+        -:   73:			
+     3472:   74:			else if(i == 6 && r == 1)
+      472:   75:				kingdom[i] = steward;
+        -:   76:			
+     3000:   77:			else if(i == 7 && r == 0)
+      512:   78:				kingdom[i] = tribute;
+        -:   79:				
+     2488:   80:			else if(i == 7 && r == 1)
+      488:   81:				kingdom[i] = ambassador;
+        -:   82:				
+     2000:   83:			else if(i == 8 && r == 0)
+      503:   84:				kingdom[i] = cutpurse;
+        -:   85:				
+     1497:   86:			else if(i == 8 && r == 1)
+      497:   87:				kingdom[i] = embargo;
+        -:   88:			
+     1000:   89:			else if(i == 9 && r == 0)
+      502:   90:				kingdom[i] = outpost;
+        -:   91:			
+      498:   92:			else if(i == 9 && r == 1)
+      498:   93:				kingdom[i] = adventurer;
+        -:   94:				
+    10000:   95:			r = rand() % 2;
+        -:   96:		}
+        -:   97:		
+     1000:   98:		int seed = rand(); //random number	
+        -:   99:  
+        -:  100:		//Initiate Game
+     1000:  101:		initializeGame(numPlayers, kingdom, seed, &state);
+        -:  102:		//This check to confirm game initialization is reducing my coverage percentage 
+        -:  103:		/*int initSuccess = 
+        -:  104:		if(initSuccess != 0)
+        -:  105:		{
+        -:  106:		   printf("Game failed to initialize\n");
+        -:  107:		}*/
+        -:  108:		
+     3988:  109:		for(i = 0; i < numPlayers; i++)
+        -:  110:		{
+        -:  111:			//State of Game Before Card is Played
+     2988:  112:			int player = whoseTurn(&state);
+     2988:  113:			int bonus = rand();
+        -:  114:			int choice1, choice2, choice3;
+        -:  115:			
+     2988:  116:			if(rand() % 2)
+        -:  117:			{
+     1483:  118:				choice1 = 0;
+        -:  119:			}
+        -:  120:				
+        -:  121:			else
+        -:  122:			{
+     1505:  123:				choice1 = kingdom[(rand() % 10)]; //get a random kingdom card
+        -:  124:			}
+        -:  125:			
+     2988:  126:			if(rand() % 2)
+        -:  127:			{
+     1528:  128:				choice2 = 0;
+        -:  129:			}
+        -:  130:			
+        -:  131:			else
+        -:  132:			{
+     1460:  133:				choice2 = kingdom[(rand() % 10)]; //get a random kingdom card
+        -:  134:			}
+        -:  135:			
+     2988:  136:			if(rand() % 2)
+        -:  137:			{
+     1513:  138:				choice3 = 0;
+        -:  139:			}
+        -:  140:			
+        -:  141:			else
+        -:  142:			{
+     1475:  143:				choice3 = kingdom[(rand() % 10)]; //get a random kingdom card
+        -:  144:			}
+        -:  145:	
+     2988:  146:			state.deckCount[player] = rand() % (MAX_DECK + 1);
+        -:  147:
+     2988:  148:			int inHand = rand() % MAX_HAND + 1; //if 0 player couldn't play adventurer card so between 1 and max
+     2988:  149:			state.handCount[player] = inHand;
+     2988:  150:			int deckNotHand1 = state.deckCount[player] + state.discardCount[player] + state.playedCardCount;
+     2988:  151:			int handpos = rand() % numHandCards(&state); //random hand position	
+        -:  152:			
+        -:  153:			//Play Smithy
+     2988:  154:			cardEffect(smithy, choice1, choice2, choice3, &state, handpos, &bonus);
+        -:  155:		   
+        -:  156:			//State of Game After Smithy is Played
+     2988:  157:			int deckNotHand2 = state.deckCount[player] + state.discardCount[player] + state.playedCardCount;
+        -:  158:		   
+        -:  159:			//Test Correct Hand Size - Should Increase by 2 (added 3, discarded Smithy)
+     2988:  160:			assertTrue(inHand + 2, numHandCards(&state), "Correct Hand Size -");
+        -:  161:   
+        -:  162:			//Test Correct Deck Size - Should Decrease by 2 (moved 3 to hand, discarded Smithy)
+     2988:  163:			assertTrue(deckNotHand1 - 2, deckNotHand2, "Correct Deck Size -");
+        -:  164:			
+        -:  165:			//Advance to a new players turn
+     2988:  166:			endTurn(&state);
+        -:  167:		}
+        -:  168:	}
+        -:  169:	
+        1:  170:	return 0;   
+        -:  171:}
+        -:  172:
+        -:  173:
