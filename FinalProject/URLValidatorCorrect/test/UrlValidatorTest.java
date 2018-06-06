@@ -68,7 +68,8 @@ protected void setUp() {
             }
          }
       }
-      if (printStatus) {
+      if (printStatus) 
+      {
          System.out.println();
       }
 
@@ -76,7 +77,6 @@ protected void setUp() {
 
    /**
     * Create set of tests by taking the testUrlXXX arrays and
-    * running through all possible permutations of their combinations.
     *
     * @param testObjects Used to create a url.
     */
@@ -87,13 +87,19 @@ protected void setUp() {
       assertTrue(urlVal.isValid("http://www.google.com/"));
       int statusPerLine = 60;
       int printed = 0;
-      if (printIndex)  {
+      int i = 1; //added
+     
+      if (printIndex)  
+      {
          statusPerLine = 6;
       }
+     
       do {
           StringBuilder testBuffer = new StringBuilder();
          boolean expected = true;
-         for (int testPartsIndexIndex = 0; testPartsIndexIndex < testPartsIndex.length; ++testPartsIndexIndex) {
+         
+         for (int testPartsIndexIndex = 0; testPartsIndexIndex < testPartsIndex.length; ++testPartsIndexIndex) 
+         {
             int index = testPartsIndex[testPartsIndexIndex];
             ResultPair[] part = (ResultPair[]) testObjects[testPartsIndexIndex];
             testBuffer.append(part[index].item);
@@ -120,6 +126,8 @@ protected void setUp() {
                printed = 0;
             }
          }
+         System.out.print(i + " " + url + " ++" + result + "\n"); //added
+         i++;//added
       } while (incrementTestPartsIndex(testPartsIndex, testObjects));
       if (printStatus) {
          System.out.println();
