@@ -27,6 +27,14 @@ public class UrlValidatorTest extends TestCase
 	   String testName = "Manual";
 	   System.out.print("Test: " + testName +"\n");
 	   
+	   UrlValidator urlVal = new UrlValidator(null, null, UrlValidator.ALLOW_ALL_SCHEMES);
+	   
+	   System.out.print("Should be Invalid:\n");
+	   System.out.print(urlVal.isValid("3ht://256.256.256.256:-/..") +"\n");
+	   
+	   System.out.print("Should be Valid:\n");
+	   System.out.print(urlVal.isValid("http://www.google.com:80/test1?action=view") +"\n");
+	   
    }
    
    
@@ -57,7 +65,7 @@ public class UrlValidatorTest extends TestCase
    public void testIsValid()
    {
 	   //You can use this function for programming based testing
-	   System.out.print("Test: \n");
+	   System.out.print("Test: random change \n");
 
    }
    
