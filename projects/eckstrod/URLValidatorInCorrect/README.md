@@ -1,4 +1,4 @@
 Final Project: Part-B
 
-Alexander Yates | yatesal 
+Alexander Yates | yatesal
 Danielle Eckstrom | eckstrod
