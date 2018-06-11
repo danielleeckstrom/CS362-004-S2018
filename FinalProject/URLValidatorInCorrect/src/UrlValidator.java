@@ -299,7 +299,7 @@ public class UrlValidator implements Serializable {
      */
     public boolean isValid(String value) {
         if (value == null) {
-            return false;
+        	return false;
         }
 
         // Check the whole url address structure
@@ -315,7 +315,7 @@ public class UrlValidator implements Serializable {
 
         String authority = urlMatcher.group(PARSE_URL_AUTHORITY);
 
-        if ("http".equals(scheme)) {// Special case - file: allows an empty authority
+        if ("file".equals(scheme)) {// Special case - file: allows an empty authority
             if (authority != null) {
                 if (authority.contains(":")) { // but cannot allow trailing :
                     return false;
